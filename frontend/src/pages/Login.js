@@ -26,7 +26,7 @@ function Login() {
     <div className="login-container">
       <div className="login-box">
         <div className="logo-section">
-          <img src="/logoimg.png" alt="ShiaanX Logo" className="logo" />
+          <img src={process.env.PUBLIC_URL + '/logoimg.png'} alt="ShiaanX Logo" className="logo" />
         </div>
         <h2>Welcome Back</h2>
         <p className="subtitle">Log in to your account</p>

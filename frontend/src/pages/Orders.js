@@ -88,14 +88,14 @@ function Orders() {
               </div>
             )}
           </div>
-          <img src="/logoimg.png" alt="ShiaanX" className="topbar-logo-img" />
+          <img src={process.env.PUBLIC_URL + '/logoimg.png'} alt="ShiaanX" className="topbar-logo-img" />
         </div>
       </div>
 
       {/* Sidebar */}
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
-          <img src="/logoimg.png" alt="ShiaanX" className="sidebar-logo" />
+          <img src={process.env.PUBLIC_URL + '/logoimg.png'} alt="ShiaanX" className="sidebar-logo" />
         </div>
         
         <nav className="sidebar-nav">

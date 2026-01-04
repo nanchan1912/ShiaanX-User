@@ -29,7 +29,7 @@ function Signup() {
     <div className="signup-container">
       <div className="signup-box">
         <div className="logo-section">
-          <img src="/logoimg.png" alt="ShiaanX Logo" className="logo" />
+          <img src={process.env.PUBLIC_URL + '/logoimg.png'} alt="ShiaanX Logo" className="logo" />
         </div>
         <h2>Create Account</h2>
         <p className="subtitle">Sign up to get started</p>
