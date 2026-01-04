@@ -1,12 +1,24 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Home from './pages/Home';
+import Enquiries from './pages/Enquiries';
+import Orders from './pages/Orders';
 import './styles/App.css';
 
 function App() {
   return (
-    <div className="App">
-      <h1>Welcome</h1>
-      <p>This is the frontend userflow</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/enquiries" element={<Enquiries />} />
+        <Route path="/orders" element={<Orders />} />
+      </Routes>
+    </Router>
   );
 }
 
