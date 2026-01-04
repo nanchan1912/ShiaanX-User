@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/ShiaanX-User/static/css/main.cc4f199b.css",
-    "main.js": "/ShiaanX-User/static/js/main.8daf8b41.js",
+    "main.js": "/ShiaanX-User/static/js/main.78574878.js",
     "index.html": "/ShiaanX-User/index.html",
     "main.cc4f199b.css.map": "/ShiaanX-User/static/css/main.cc4f199b.css.map",
-    "main.8daf8b41.js.map": "/ShiaanX-User/static/js/main.8daf8b41.js.map"
+    "main.78574878.js.map": "/ShiaanX-User/static/js/main.78574878.js.map"
   },
   "entrypoints": [
     "static/css/main.cc4f199b.css",
-    "static/js/main.8daf8b41.js"
+    "static/js/main.78574878.js"
   ]
 }
