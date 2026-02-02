@@ -5,6 +5,8 @@ import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Enquiries from './pages/Enquiries';
 import Orders from './pages/Orders';
+import TrackOrder from './pages/TrackOrder';
+import ViewDetails from './pages/ViewDetails';
 import './styles/App.css';
 
 function App() {
@@ -17,6 +19,8 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/enquiries" element={<Enquiries />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/track-order" element={<TrackOrder />} />
+        <Route path="/view-details" element={<ViewDetails />} />
       </Routes>
     </Router>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiMenu, FiHome, FiShoppingBag, FiMessageSquare, FiSearch, FiUser, FiBell, FiSettings, FiAlertCircle } from 'react-icons/fi';
+import { FiMenu, FiHome, FiShoppingBag, FiMessageSquare, FiSearch, FiUser, FiBell, FiSettings, FiAlertCircle, FiMessageCircle } from 'react-icons/fi';
 import '../styles/Enquiries.css';
 
 function Enquiries() {
@@ -98,6 +98,11 @@ function Enquiries() {
           <div className="nav-item" onClick={() => { navigate('/orders'); setSidebarOpen(false); }}>
             <FiShoppingBag size={20} />
             <span>My Orders</span>
+          </div>
+          
+          <div className="nav-item" onClick={() => { /* Add chat support logic */ }}>
+            <FiMessageCircle size={20} />
+            <span>Chat Support</span>
           </div>
         </nav>
       </div>

@@ -1,9 +1,12 @@
+
+
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiMenu, FiHome, FiShoppingBag, FiMessageSquare, FiUser, FiBell, FiSettings, FiMessageCircle } from 'react-icons/fi';
-import '../styles/Home.css';
+import '../styles/TrackOrder.css';
 
-function Home() {
+function TrackOrder() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -20,35 +23,14 @@ function Home() {
     navigate('/login');
   };
 
-  // Recent enquiries data
-  const recentEnquiries = [
-    {
-      id: 1,
-      subject: 'Item #19203: Screw Driver',
-      date: '2026-01-03',
-      status: 'Quote Pending'
-    },
-    {
-      id: 2,
-      subject: 'Item #18093: Truck Component',
-      date: '2026-01-02',
-      status: 'Quote Ready'
-    },
-    {
-      id: 3,
-      subject: 'Item #12394: Maneuver Gear A',
-      date: '2026-01-01',
-      status: 'Quote Ready'
-    }
-  ];
-
   return (
-    <div className="home-container">
+    <div className="track-order-container">
       {/* Top Navigation Bar */}
       <div className="topbar">
         <button className="menu-btn" onClick={toggleSidebar}>
           <FiMenu size={24} />
         </button>
+        <h2 className="page-title">Orders/Timeline</h2>
         <div className="topbar-right">
           <div className="topbar-icons">
             <button className="icon-btn">
@@ -106,61 +88,62 @@ function Home() {
 
       {/* Main Content */}
       <div className="main-content">
-        <div className="welcome-text">
-          <h1>Welcome back, Nandini!</h1>
-          <h3>What would you like to do today?</h3>
+        <div className="item-id-section">
+          <span className="item-label">Item ID:</span>
+          <span className="item-value">#123456</span>
         </div>
 
-        <div className="cards-grid">
-          <div className="info-card" onClick={() => navigate('/home')}>
-            <div className="card-icon">
-              <FiShoppingBag size={28} color="#2160b7" />
-            </div>
-            <h3>Browse Manufacturers</h3>
-            <p>Check out the services and machinery we have available</p>
-          </div>
+        {/* Vendor Documents and Remarks Box */}
+        <div className="split-box">
+          <div className="split-left">
+            <h3>Vendor Uploaded Documents (Click to View)</h3>
 
-          <div className="info-card" onClick={() => navigate('/enquiries')}>
-            <div className="card-icon">
-              <FiMessageSquare size={28} color="#2160b7" />
+            <div className="document-item">
+              <div className="document-link">&gt; abcdef.txt</div>
+            
             </div>
-            <h3>Make Enquiries</h3>
-            <p>Upload your CAD files, choose your options to get a rough quotation</p>
-          </div>
+            <div className="document-item">
+              <div className="document-link">&gt; gefdgt.txt</div>
+            </div>
 
-          <div className="info-card" onClick={() => navigate('/orders')}>
-            <div className="card-icon">
-              <FiShoppingBag size={28} color="#2160b7" />
+          </div>
+          <div className="divider"></div>
+          <div className="split-right">
+            <h3>Vendor Remarks</h3>
+            <div className="remark-item">
+              <p>Initial design approved. Proceeding with manufacturing.</p>
             </div>
-            <h3>Track Orders</h3>
-            <p>Keep track of all your orders in one place</p>
+            <div className="remark-item">
+              <p>Quality inspection report attached. All parameters within tolerance. Ready for shipment.</p>
+            </div>
           </div>
         </div>
 
-        <div className="recent-section">
-          <h2>Recent Enquiries</h2>
-          <div className="recent-list">
-            {recentEnquiries.slice(0, 3).map(enquiry => (
-              <div key={enquiry.id} className="recent-item" onClick={() => navigate('/enquiries')}>
-                <div className="recent-info">
-                  <span className="recent-subject">{enquiry.subject}</span>
-                  <span className="recent-date">{enquiry.date}</span>
-                </div>
-                <span
-  className={`status-badge quote ${
-    enquiry.status === 'Quote Ready' ? 'ready' : 'pending'
-  }`}
->
-  {enquiry.status}
-</span>
-
-              </div>
-            ))}
+        <div className="bottom-section">
+          <div className="bottom-left">
+            <div className="field-section">
+              <label>Order placed on:</label>
+              <div className="blue-box">11th Jan 2025</div>
+            </div>
+            <div className="field-section">
+              <label>Status:</label>
+              <div className="blue-box"><span className="status-pending">Pending</span></div>
+            </div>
+            <button className="view-timeline-btn">View Timeline</button>
           </div>
+          <div className="bottom-right">
+            <label>Current Step:</label>
+            <div className="blue-box">Finishing & Quality Control</div>
+          </div>
+        </div>
+
+        <div className="tip-section">
+          <p>Tip: Orders/Timeline takes you to the latest updates/reports/status from the vendor. To see the information about the product itself (things that you entered), go to Orders/Details.</p>
         </div>
       </div>
     </div>
   );
 }
 
-export default Home;
+
+export default TrackOrder;

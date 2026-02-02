@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiMenu, FiHome, FiShoppingBag, FiMessageSquare, FiUser, FiBell, FiSettings, FiMessageCircle } from 'react-icons/fi';
-import '../styles/Home.css';
+import '../styles/ViewDetails.css';
 
-function Home() {
+function ViewDetails() {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -20,35 +20,14 @@ function Home() {
     navigate('/login');
   };
 
-  // Recent enquiries data
-  const recentEnquiries = [
-    {
-      id: 1,
-      subject: 'Item #19203: Screw Driver',
-      date: '2026-01-03',
-      status: 'Quote Pending'
-    },
-    {
-      id: 2,
-      subject: 'Item #18093: Truck Component',
-      date: '2026-01-02',
-      status: 'Quote Ready'
-    },
-    {
-      id: 3,
-      subject: 'Item #12394: Maneuver Gear A',
-      date: '2026-01-01',
-      status: 'Quote Ready'
-    }
-  ];
-
   return (
-    <div className="home-container">
+    <div className="view-details-container">
       {/* Top Navigation Bar */}
       <div className="topbar">
         <button className="menu-btn" onClick={toggleSidebar}>
           <FiMenu size={24} />
         </button>
+        <h2 className="page-title">Orders/Details</h2>
         <div className="topbar-right">
           <div className="topbar-icons">
             <button className="icon-btn">
@@ -106,61 +85,80 @@ function Home() {
 
       {/* Main Content */}
       <div className="main-content">
-        <div className="welcome-text">
-          <h1>Welcome back, Nandini!</h1>
-          <h3>What would you like to do today?</h3>
+        <div className="content-wrapper">
+          {/* Left Column */}
+          <div className="left-column">
+            <div className="item-id-section">
+              <span className="item-label">Item ID:</span>
+              <span className="item-value">#123456</span>
+            </div>
+
+            <div className="field-section">
+              <label>Processing Technology:</label>
+              <div className="blue-box">CNC Machining</div>
+            </div>
+
+            <div className="field-section">
+              <label>Material:</label>
+              <div className="blue-box">Aluminum 6061</div>
+            </div>
+
+            <div className="field-section">
+              <label>Finishes:</label>
+              <div className="blue-box">Anodized Blue</div>
+            </div>
+
+            <div className="field-section">
+              <label>Remarks:</label>
+              <div className="blue-box">Please ensure tight tolerances on mounting holes. Quality inspection required.</div>
+            </div>
+
+            <div className="field-section">
+              <label>Quantity:</label>
+              <div className="blue-box">5 units</div>
+            </div>
+
+            <div className="order-info">
+              <p>Order placed on: <strong>11th Jan 2025</strong></p>
+            </div>
+
+            <button className="view-timeline-btn">View Timeline</button>
+          </div>
+
+          {/* Right Column */}
+          <div className="right-column">
+            <div className="documents-box">
+              <h3>Uploaded Documents (Click to View)</h3>
+              <div className="document-link">&gt; abc.txt</div>
+              <div className="document-link">&gt; gefdh.txt</div>
+              <div className="document-link">&gt; 3rfggh.txt</div>
+              <div className="document-link">&gt; 24f4tgh.txt</div>
+              <div className="document-link">&gt; gwrdsfdh.txt</div>
+            </div>
+
+            <div className="field-section">
+              <label>Shipping Address:</label>
+              <div className="blue-box">
+Plot No. 47, 3rd Floor,<br />
+Industrial Estate Phase II,<br />
+Near Metro Pillar 218, Okhla Industrial Area,<br />
+New Delhi – 110020,<br />
+Delhi, India</div>
+            </div>
+
+            <div className="field-section">
+              <label>Bill / Extra Details:</label>
+              <div className="blue-box">Rush order. Please expedite processing. Contact before dispatch.</div>
+            </div>
+          </div>
         </div>
 
-        <div className="cards-grid">
-          <div className="info-card" onClick={() => navigate('/home')}>
-            <div className="card-icon">
-              <FiShoppingBag size={28} color="#2160b7" />
-            </div>
-            <h3>Browse Manufacturers</h3>
-            <p>Check out the services and machinery we have available</p>
-          </div>
-
-          <div className="info-card" onClick={() => navigate('/enquiries')}>
-            <div className="card-icon">
-              <FiMessageSquare size={28} color="#2160b7" />
-            </div>
-            <h3>Make Enquiries</h3>
-            <p>Upload your CAD files, choose your options to get a rough quotation</p>
-          </div>
-
-          <div className="info-card" onClick={() => navigate('/orders')}>
-            <div className="card-icon">
-              <FiShoppingBag size={28} color="#2160b7" />
-            </div>
-            <h3>Track Orders</h3>
-            <p>Keep track of all your orders in one place</p>
-          </div>
-        </div>
-
-        <div className="recent-section">
-          <h2>Recent Enquiries</h2>
-          <div className="recent-list">
-            {recentEnquiries.slice(0, 3).map(enquiry => (
-              <div key={enquiry.id} className="recent-item" onClick={() => navigate('/enquiries')}>
-                <div className="recent-info">
-                  <span className="recent-subject">{enquiry.subject}</span>
-                  <span className="recent-date">{enquiry.date}</span>
-                </div>
-                <span
-  className={`status-badge quote ${
-    enquiry.status === 'Quote Ready' ? 'ready' : 'pending'
-  }`}
->
-  {enquiry.status}
-</span>
-
-              </div>
-            ))}
-          </div>
+        <div className="tip-section">
+          <p>Tip: Orders/Details takes you to the information about the product itself (things that you entered). To view latest updates/reports/status from the vendor, go to Orders/Timeline.</p>
         </div>
       </div>
     </div>
   );
 }
 
-export default Home;
+export default ViewDetails;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiMenu, FiHome, FiShoppingBag, FiMessageSquare, FiPackage, FiTruck, FiSearch, FiUser, FiBell, FiSettings } from 'react-icons/fi';
+import { FiMenu, FiHome, FiShoppingBag, FiMessageSquare, FiPackage, FiTruck, FiSearch, FiUser, FiBell, FiSettings, FiMessageCircle } from 'react-icons/fi';
 import '../styles/Orders.css';
 
 function Orders() {
@@ -113,6 +113,11 @@ function Orders() {
             <FiShoppingBag size={20} />
             <span>My Orders</span>
           </div>
+          
+          <div className="nav-item" onClick={() => { /* Add chat support logic */ }}>
+            <FiMessageCircle size={20} />
+            <span>Chat Support</span>
+          </div>
         </nav>
       </div>
 
@@ -189,8 +194,8 @@ function Orders() {
               </div>
               
               <div className="order-actions">
-                <button className="action-btn secondary">Track Order</button>
-                <button className="action-btn primary">View Details</button>
+                <button className="action-btn secondary" onClick={() => navigate('/track-order')}>Track Order</button>
+                <button className="action-btn primary" onClick={() => navigate('/view-details')}>View Details</button>
               </div>
             </div>
           ))}
