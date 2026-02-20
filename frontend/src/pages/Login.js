@@ -1,13 +1,28 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import toast from 'react-hot-toast';
 import '../styles/Login.css';
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login, user } = useAuth();
+
+  const from = location.state?.from?.pathname || '/home';
+
+  useEffect(() => {
+    if (user) {
+      console.log("User detected, redirecting to:", from);
+      navigate(from, { replace: true });
+    }
+  }, [user, navigate, from]);
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -16,10 +31,19 @@ function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // No backend validation for now - any entry takes to home
-    navigate('/home');
+    setLoading(true);
+    try {
+      await login(formData.email, formData.password);
+      toast.success('Login successful!');
+      navigate(from, { replace: true });
+    } catch (err) {
+      const msg = err.message || 'Login failed. Please check your credentials.';
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,7 +80,9 @@ function Login() {
             />
           </div>
           
-          <button type="submit" className="login-btn">Log In</button>
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? 'Logging in...' : 'Log In'}
+          </button>
         </form>
         
         <div className="login-footer">
