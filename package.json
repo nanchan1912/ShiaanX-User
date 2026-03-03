@@ -2,7 +2,6 @@
   "name": "user-pages-frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://nanchan1912.github.io/ShiaanX-User",
   "dependencies": {
     "axios": "^1.13.4",
     "react": "^18.2.0",
