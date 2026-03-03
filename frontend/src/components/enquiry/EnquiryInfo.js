@@ -67,11 +67,18 @@ const EnquiryInfo = ({ data, onConfirm, onEdit, onCancel }) => {
         <div className="info-item full-width">
           <label>Attached Files</label>
           <div className="info-files">
-            {data.files && data.files.length > 0 ? (
-              data.files.map((file, index) => (
+            {data.documents && data.documents.length > 0 ? (
+              data.documents.map((doc, index) => (
                 <div key={index} className="file-chip">
                   <FiPaperclip size={14} style={{ marginRight: '6px' }} />
-                  {file.name}
+                  <a 
+                    href={doc.file_path.startsWith('http') ? doc.file_path : `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/${doc.file_path}`} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    style={{ color: 'inherit', textDecoration: 'none' }}
+                  >
+                    {doc.file_name}
+                  </a>
                 </div>
               ))
             ) : (
