@@ -202,7 +202,7 @@
   padding-bottom: 40px;
   padding-left: 90px;
   padding-right: 20px;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -368,9 +368,30 @@
   color: #856404;
 }
 
-.status-badge.quote.ready {
+.status-badge.quote.ready,
+.status-badge.quote.quoted {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-badge.quote.po_uploaded {
+  background: #e2e3e5;
+  color: #383d41;
+}
+
+.status-badge.quote.po_rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.status-badge.quote.order_generated {
   background: #d4edda;
   color: #155724;
+}
+
+.status-badge.quote.cancelled {
+  background: #efefef;
+  color: #666;
 }
 
 .enquiry-message {

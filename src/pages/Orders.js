@@ -127,14 +127,12 @@ function Orders() {
               <button 
                 className="action-btn secondary" 
                 onClick={() => navigate(`/orders/${order.id}/track`)}
-                style={{ padding: '0.6rem 1.2rem', borderRadius: '6px', cursor: 'pointer', border: '1px solid #ddd', backgroundColor: 'white' }}
               >
                 Track Order
               </button>
               <button 
                 className="action-btn primary" 
                 onClick={() => navigate(`/orders/${order.id}`)}
-                style={{ padding: '0.6rem 1.2rem', borderRadius: '6px', cursor: 'pointer', border: 'none', backgroundColor: '#2160b7', color: 'white' }}
               >
                 View Details
               </button>
