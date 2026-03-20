@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import '../../styles/EnquiryForm.css';
 
-const CustomDropdown = ({ label, options, value, onChange, placeholder, name, error }) => {
+const CustomDropdown = ({ label, options, value, onChange, placeholder, name, error, isObject = false, displayKey = 'name', valueKey = 'id', disabled = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -20,30 +20,46 @@ const CustomDropdown = ({ label, options, value, onChange, placeholder, name, er
   }, []);
 
   const handleSelect = (option) => {
-    onChange({ target: { name, value: option } });
+    if (disabled) return;
+    const val = isObject ? option[valueKey] : option;
+    onChange({ target: { name, value: val } });
     setIsOpen(false);
+  };
+
+  const currentDisplayValue = () => {
+    if (!value) return placeholder;
+    if (isObject) {
+      const selectedOption = options.find(opt => opt[valueKey] === value);
+      return selectedOption ? selectedOption[displayKey] : placeholder;
+    }
+    return value;
   };
 
   return (
     <div className="form-group" ref={dropdownRef}>
       <label>{label}</label>
-      <div className={`custom-dropdown ${isOpen ? 'open' : ''} ${error ? 'error' : ''}`}>
-        <div className="dropdown-selected" onClick={() => setIsOpen(!isOpen)}>
-          <span>{value || placeholder}</span>
+      <div className={`custom-dropdown ${isOpen ? 'open' : ''} ${error ? 'error' : ''} ${disabled ? 'disabled' : ''}`}>
+        <div className="dropdown-selected" onClick={() => !disabled && setIsOpen(!isOpen)}>
+          <span>{currentDisplayValue()}</span>
           {isOpen ? <FiChevronUp /> : <FiChevronDown />}
         </div>
         
         {isOpen && (
           <div className="dropdown-options">
-            {options.map((option) => (
-              <div 
-                key={option} 
-                className={`dropdown-option ${value === option ? 'selected' : ''}`}
-                onClick={() => handleSelect(option)}
-              >
-                {option}
-              </div>
-            ))}
+            {options.map((option, index) => {
+              const displayVal = isObject ? option[displayKey] : option;
+              const optionVal = isObject ? option[valueKey] : option;
+              
+              return (
+                <div 
+                  key={index} 
+                  className={`dropdown-option ${value === optionVal ? 'selected' : ''}`}
+                  onClick={() => handleSelect(option)}
+                >
+                  {displayVal}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

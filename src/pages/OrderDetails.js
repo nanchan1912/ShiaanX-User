@@ -57,16 +57,71 @@ function OrderDetails() {
       <div className="details-layout">
         <div className="left-column">
           <div className="detail-section">
-            <h3 className="section-title"><FiShoppingBag size={20} /> Project Specifications</h3>
-            <div className="data-grid">
-              <div className="data-item">
-                <label>Technology</label>
-                <span>{order.processing_technology}</span>
-              </div>
-              <div className="data-item">
-                <label>Quantity</label>
-                <span>{order.quantity} Units</span>
-              </div>
+            <h3 className="section-title"><FiShoppingBag size={20} /> Order Items</h3>
+            <div className="order-items-list" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              {order.items && order.items.length > 0 ? (
+                order.items.map((item, idx) => (
+                  <div key={item.id} style={{ 
+                    backgroundColor: 'white', 
+                    border: '1px solid var(--border)', 
+                    borderRadius: '12px', 
+                    padding: '1.25rem',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', borderBottom: '1px solid var(--background)', paddingBottom: '0.75rem' }}>
+                      <h4 style={{ margin: 0, color: 'var(--text-main)', fontSize: '1.05rem' }}>{idx + 1}. {item.item_name}</h4>
+                      <span style={{ fontWeight: 700, color: 'var(--primary)' }}>Qty: {item.quantity}</span>
+                    </div>
+
+                    <div className="data-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem', border: 'none', padding: 0 }}>
+                      <div className="data-item">
+                        <label>Technologies</label>
+                        <span>{item.technologies?.map(t => t.name).join(', ') || 'N/A'}</span>
+                      </div>
+                      <div className="data-item">
+                        <label>Materials</label>
+                        <span>{item.materials?.map(m => m.name).join(', ') || 'N/A'}</span>
+                      </div>
+                      <div className="data-item">
+                        <label>Finishes</label>
+                        <span>{item.finishes?.map(f => f.name).join(', ') || 'N/A'}</span>
+                      </div>
+                      <div className="data-item">
+                        <label>Unit Price</label>
+                        <span style={{ fontWeight: 600 }}>₹{item.unit_price}</span>
+                      </div>
+                    </div>
+
+                    {item.total_price && (
+                      <div style={{ marginTop: '0.75rem', textAlign: 'right', fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-main)' }}>
+                        Item Total: ₹{item.total_price}
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <div className="data-grid">
+                  <div className="data-item">
+                    <label>Technology</label>
+                    <span>{order.technology?.name || order.processing_technology}</span>
+                  </div>
+                  <div className="data-item">
+                    <label>Material</label>
+                    <span>{order.materialRef?.name || order.material}</span>
+                  </div>
+                  <div className="data-item">
+                    <label>Finish</label>
+                    <span>{order.finishRef?.name || order.finishes}</span>
+                  </div>
+                  <div className="data-item">
+                    <label>Quantity</label>
+                    <span>{order.quantity} Units</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="data-grid" style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '2px solid var(--background)' }}>
               <div className="data-item">
                 <label>Tracking ID</label>
                 <span style={{ color: 'var(--primary)' }}>{order.tracking_number || 'Awaiting Logistics'}</span>

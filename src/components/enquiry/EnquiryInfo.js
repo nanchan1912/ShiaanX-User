@@ -4,13 +4,19 @@ import { FiPaperclip } from 'react-icons/fi';
 const EnquiryInfo = ({ data, onConfirm, onEdit, onCancel }) => {
   if (!data) return <div>Loading...</div>;
 
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return isNaN(date.getTime()) ? 'N/A' : date.toLocaleDateString();
+  };
+
   return (
     <div className="enquiry-info-panel">
       <div className="info-header">
         <div className="header-top-row">
           <h2 className="info-title">Enquiry #{data.enquiry_number}</h2>
           <div className="header-actions">
-            {!['CANCELLED', 'PO_UPLOADED', 'ORDER_GENERATED'].includes(data.status) && (
+            {data.status && !['CANCELLED', 'PO_UPLOADED', 'ORDER_GENERATED'].includes(data.status) && (
               <>
                 <button className="btn-secondary-action" onClick={onEdit}>Edit</button>
                 {['PENDING', 'PO_REJECTED'].includes(data.status) && (
@@ -24,8 +30,8 @@ const EnquiryInfo = ({ data, onConfirm, onEdit, onCancel }) => {
           </div>
         </div>
         <div className="header-status-row">
-          <span className={`status-badge ${data.status.toLowerCase()}`}>
-            {data.status.replace(/_/g, ' ')}
+          <span className={`status-badge ${data.status?.toLowerCase()}`}>
+            {data.status?.replace(/_/g, ' ')}
           </span>
         </div>
       </div>
@@ -33,58 +39,109 @@ const EnquiryInfo = ({ data, onConfirm, onEdit, onCancel }) => {
       <div className="info-grid">
         <div className="info-item">
           <label>Created Date</label>
-          <p>{new Date(data.created_at).toLocaleDateString()}</p>
+          <p>{formatDate(data.created_at)}</p>
         </div>
 
-        <div className="info-item">
-          <label>Processing Technology</label>
-          <p>{data.processing_technology}</p>
-        </div>
-        <div className="info-item">
-          <label>Material</label>
-          <p>{data.material}</p>
-        </div>
+        {(!data.parts || data.parts.length === 0) ? (
+          <>
+            <div className="info-item">
+              <label>Processing Technology</label>
+              <p>{data.technology?.name || data.processing_technology || 'N/A'}</p>
+            </div>
+            <div className="info-item">
+              <label>Material</label>
+              <p>{data.materialRef?.name || data.material || 'N/A'}</p>
+            </div>
+            <div className="info-item">
+              <label>Finish</label>
+              <p>{data.finishRef?.name || data.finishes || 'N/A'}</p>
+            </div>
+            <div className="info-item">
+              <label>Quantity</label>
+              <p>{data.quantity} Units</p>
+            </div>
+          </>
+        ) : (
+          <div className="info-item full-width">
+            <label>Enquiry Parts ({data.parts.length})</label>
+            <div className="parts-display-list">
+              {data.parts.map((part, pIdx) => (
+                <div key={part.id || pIdx} className="part-card">
+                  <div className="part-card-header">
+                    <div className="part-name-wrapper">
+                        <span className="part-index">{pIdx + 1}</span>
+                        <h4 className="part-name">{part.part_name}</h4>
+                    </div>
+                    <span className="part-qty-badge">Qty: {part.quantity}</span>
+                  </div>
+                  
+                  <div className="part-grid">
+                    <div className="part-field-group">
+                      <span className="part-field-label">Technology</span>
+                      <div className="part-field-value">
+                        {part.technologies && part.technologies.length > 0 ? (
+                          part.technologies.map((t, idx) => (
+                            <span key={idx} className="tag-badge">{t.name}</span>
+                          ))
+                        ) : <span>N/A</span>}
+                      </div>
+                    </div>
+                    <div className="part-field-group">
+                      <span className="part-field-label">Material</span>
+                      <div className="part-field-value">
+                        {part.materials && part.materials.length > 0 ? (
+                          part.materials.map((m, idx) => (
+                            <span key={idx} className="tag-badge">{m.name}</span>
+                          ))
+                        ) : <span>N/A</span>}
+                      </div>
+                    </div>
+                    <div className="part-field-group">
+                      <span className="part-field-label">Finish</span>
+                      <div className="part-field-value">
+                        {part.finishes && part.finishes.length > 0 ? (
+                          part.finishes.map((f, idx) => (
+                            <span key={idx} className="tag-badge">{f.name}</span>
+                          ))
+                        ) : <span>N/A</span>}
+                      </div>
+                    </div>
+                  </div>
 
-        <div className="info-item">
-          <label>Finish</label>
-          <p>{data.finishes}</p>
-        </div>
-        <div className="info-item">
-          <label>Quantity</label>
-          <p>{data.quantity} Units</p>
-        </div>
+                  {part.remarks && (
+                    <div className="part-remarks-box">
+                      <span className="remarks-label">Part Remarks</span>
+                      <p className="remarks-text">{part.remarks}</p>
+                    </div>
+                  )}
+
+                  {part.documents && part.documents.length > 0 && (
+                    <div className="part-documents-section">
+                      <span className="part-field-label" style={{ marginBottom: '0.5rem' }}>Attached Documents</span>
+                      <div className="info-files">
+                        {part.documents.map((doc, dIdx) => (
+                          <div key={dIdx} className="file-chip">
+                            <FiPaperclip size={12} style={{ marginRight: '4px' }} />
+                            {doc.file_name}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="info-item full-width">
-          <label>Remarks</label>
+          <label>Overall Remarks</label>
           <p>{data.remarks || 'No remarks provided.'}</p>
         </div>
 
         <div className="info-item full-width">
           <label>Shipping Address</label>
-          <p style={{ whiteSpace: 'pre-line' }}>{data.shipping_address}</p>
-        </div>
-
-        <div className="info-item full-width">
-          <label>Attached Files</label>
-          <div className="info-files">
-            {data.documents && data.documents.length > 0 ? (
-              data.documents.map((doc, index) => (
-                <div key={index} className="file-chip">
-                  <FiPaperclip size={14} style={{ marginRight: '6px' }} />
-                  <a 
-                    href={doc.file_path.startsWith('http') ? doc.file_path : `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/${doc.file_path}`} 
-                    target="_blank" 
-                    rel="noreferrer"
-                    style={{ color: 'inherit', textDecoration: 'none' }}
-                  >
-                    {doc.file_name}
-                  </a>
-                </div>
-              ))
-            ) : (
-              <p style={{ color: '#a0aec0', fontStyle: 'italic' }}>No files uploaded</p>
-            )}
-          </div>
+          <p style={{ whiteSpace: 'pre-line' }}>{data.shipping_address || 'N/A'}</p>
         </div>
       </div>
     </div>

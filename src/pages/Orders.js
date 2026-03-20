@@ -39,7 +39,7 @@ function Orders() {
 
   const filteredOrders = orders.filter(order => 
     order.order_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    order.processing_technology?.toLowerCase().includes(searchTerm.toLowerCase())
+    (order.technology?.name || order.processing_technology || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const stats = {
@@ -113,7 +113,7 @@ function Orders() {
             
             <div className="order-details">
               <div className="product-info">
-                <h3>{order.processing_technology || 'Custom Part'}</h3>
+                <h3>{order.technology?.name || order.processing_technology || 'Custom Part'}</h3>
                 <p>Quantity: {order.quantity}</p>
                 <p className="tracking">Tracking: {order.tracking_number || 'N/A'}</p>
               </div>

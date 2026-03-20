@@ -8,37 +8,36 @@ const CreateEnquiry = () => {
   const navigate = useNavigate();
   const [errors, setErrors] = React.useState({});
 
-  const validateForm = (data) => {
-    const newErrors = {};
-    if (!data.processing_technology) newErrors.processing_technology = 'Please select a processing technology';
-    if (!data.material) newErrors.material = 'Please select a material';
-    if (!data.finishes) newErrors.finishes = 'Please select a finish';
-    if (!data.quantity || data.quantity < 1) newErrors.quantity = 'Quantity must be at least 1';
-    if (!data.shipping_address || !data.shipping_address.trim()) newErrors.shipping_address = 'Shipping address is required';
-    
-    return newErrors;
-  };
-
   const handleSubmit = async (formData) => {
     try {
       setErrors({});
-      const validationErrors = validateForm(formData);
       
-      if (Object.keys(validationErrors).length > 0) {
-        setErrors(validationErrors);
-        toast.error('Please fill in all required fields');
-        return;
-      }
-
-      const { documents, ...enquiryData } = formData;
+      const { documents, parts, ...restData } = formData;
+      
+      // Clean parts data (remove documents as it's handled separately)
+      const cleanedParts = parts.map(({ documents, id, ...part }) => part);
       
       // 1. Create Enquiry
-      const response = await enquiryService.createEnquiry(enquiryData);
-      const enquiryId = response.id; 
+      const response = await enquiryService.createEnquiry({ ...restData, parts: cleanedParts });
+      const enquiryId = response.id;
+      const createdEnquiryItems = response.parts || [];
 
       // 2. Upload Documents if any
+      // Handle overall enquiry documents (though the form currently doesn't have an overall upload, keeping it for robustness)
       if (documents && documents.length > 0) {
         await enquiryService.uploadEnquiryDocuments(enquiryId, documents);
+      }
+
+      // Handle part-specific documents
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        if (part.documents && part.documents.length > 0) {
+          // Find the corresponding created part ID in backend
+          const createdPartId = createdEnquiryItems[i]?.id;
+          if (createdPartId) {
+            await enquiryService.uploadEnquiryDocuments(enquiryId, part.documents, createdPartId);
+          }
+        }
       }
 
       toast.success('Enquiry created successfully!');

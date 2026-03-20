@@ -28,9 +28,9 @@ const EditEnquiry = () => {
 
   const validateForm = (data) => {
     const newErrors = {};
-    if (!data.processing_technology) newErrors.processing_technology = 'Please select a processing technology';
-    if (!data.material) newErrors.material = 'Please select a material';
-    if (!data.finishes) newErrors.finishes = 'Please select a finish';
+    if (!data.processing_technology_id) newErrors.processing_technology_id = 'Please select a processing technology';
+    if (!data.material_id) newErrors.material_id = 'Please select a material';
+    if (!data.finish_id) newErrors.finish_id = 'Please select a finish';
     if (!data.quantity || data.quantity < 1) newErrors.quantity = 'Quantity must be at least 1';
     if (!data.shipping_address || !data.shipping_address.trim()) newErrors.shipping_address = 'Shipping address is required';
     
@@ -48,11 +48,10 @@ const EditEnquiry = () => {
         return;
       }
 
-      // Precisely filter fields to avoid validation errors for unknown fields
       const updateData = {
-        processing_technology: formData.processing_technology,
-        material: formData.material,
-        finishes: formData.finishes,
+        processing_technology_id: formData.processing_technology_id,
+        material_id: formData.material_id,
+        finish_id: formData.finish_id,
         remarks: formData.remarks,
         quantity: formData.quantity,
         shipping_address: formData.shipping_address
